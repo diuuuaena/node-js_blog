@@ -1,21 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">Education</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+  <div class="container">
+    <a class="navbar-brand" href="/">Education</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/courses/create">Create Course</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-1/320533107_5632904146801409_3016939714000812595_n.jpg?stp=cp6_dst-jpg_p60x60&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=bFuefpPOwpwAX8ddgpE&_nc_ht=scontent.fdad3-4.fna&oh=00_AfD-iEjVQ6phwRAw1ayi7_aCSd2uC18Hi717vXkTb00N5g&oe=64E48738" alt="" class="user-avatar">
+            Phong
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/courses/create">Create Course</a>
+            <div class="dropdown-driver"></div>
+            <a class="dropdown-item" href="/me/stored/courses">My Course</a>
+            <div class="dropdown-driver"></div>
+            <a class="dropdown-item" href="#">Log out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

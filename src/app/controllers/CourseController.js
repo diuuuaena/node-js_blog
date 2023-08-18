@@ -23,8 +23,24 @@ class CourseController {
         const course = new Course(formData);
         await course
             .save()
-            .then(() => res.redirect('/'))
+            .then(() => res.redirect("/"))
             .catch((error) => {});
+    }
+
+    //[GET] /courses/:id/edit
+    edit(req, res, next){
+        Course.findById(req.params.id).lean()
+            .then((course) =>{
+                res.render('courses/edit', { course });
+            })
+            .catch(next);
+    }
+
+    //[PUT] /courses/:id
+    async update(req, res, next) {
+        await Course.updateOne({ _id: req.params.id }, req.body)
+            .then(() => res.redirect("/me/stored/courses"))
+            .catch(next);
     }
 }
 
