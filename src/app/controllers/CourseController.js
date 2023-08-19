@@ -39,7 +39,14 @@ class CourseController {
     //[PUT] /courses/:id
     async update(req, res, next) {
         await Course.updateOne({ _id: req.params.id }, req.body)
-            .then(() => res.redirect("/me/stored/courses"))
+            .then(() => res.redirect('/me/stored/courses'))
+            .catch(next);
+    }
+
+    //[DELETE] /courses/:id
+    async delete(req, res, next) {
+        await Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
             .catch(next);
     }
 }
