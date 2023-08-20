@@ -18,12 +18,11 @@ class CourseController {
 
     //[POST] /courses/store
     async store(req, res, next){
-        const formData = req.body;
-        formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-        const course = new Course(formData);
+        req.body.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+        const course = new Course(req.body);
         await course
             .save()
-            .then(() => res.redirect("/"))
+            .then(() => res.redirect("/me/stored/courses"))
             .catch((error) => {});
     }
 
@@ -45,6 +44,20 @@ class CourseController {
 
     //[DELETE] /courses/:id
     async delete(req, res, next) {
+        await Course.delete({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    //[PATCH] /courses/:id/restore
+    async restore(req, res, next) {
+        await Course.restore({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    //[DELETE] /courses/:id/force
+    async forceDelete(req, res, next) {
         await Course.deleteOne({ _id: req.params.id })
             .then(() => res.redirect('back'))
             .catch(next);

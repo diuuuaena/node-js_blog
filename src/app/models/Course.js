@@ -1,7 +1,13 @@
 const mongoose = require('mongoose');
 const slug = require('mongoose-slug-updater');
+const mongooseDelete = require('mongoose-delete');
 
+//Add plugin
 mongoose.plugin(slug);
+mongoose.plugin(mongooseDelete, { 
+    overrideMethods: 'all',
+    deletedAt: true,
+});
 
 const Schema = mongoose.Schema;
 

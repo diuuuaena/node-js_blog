@@ -4,9 +4,18 @@ class MeController {
 
     //[GET] /me/stored/courses
     storedCourses(req, res, next){
-        Course.find({}).lean()
+        Course.find().lean()
         .then((courses) =>{
             res.render('me/store-courses', { courses });
+        })
+        .catch(next);
+    }
+
+    //[GET] /me/trash/courses
+    trashCourses(req, res, next){
+        Course.findWithDeleted( {deleted:true} ).lean()
+        .then((courses) =>{
+            res.render('me/trash-courses', { courses });
         })
         .catch(next);
     }
