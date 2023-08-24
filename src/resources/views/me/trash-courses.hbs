@@ -1,25 +1,44 @@
-<div class="mt-4">
+<form class="mt-4" name="container-form" method="POST" action="/courses/handle-form-actions">
     <div>
       <a href="/me/stored/courses">Quay lại</a>
       <h3>Khóa học đã xóa</h3>
+      <div class="mt-4 d-flex align-items-center">
+        <div class="form-check mr-4">
+          <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+          <label class="form-check-label" for="checkbox-all">
+            Chọn tất cả
+          </label>
+        </div>
+        <select name="action" class="form-control form-control-sm col-md-2 mr-4" required>
+            <option value="">-- Chọn hành động --</option>
+            <option value="restore">Khôi phục</option>
+            <option value="delete-forever">Xóa</option>
+        </select>
+        <button class="btn btn-primary btn-sm btn-check-all-submit disabled">Thực hiện</button>
+      </div>
     </div>
     <table class="table mt-4">
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col" colspan="2">#</th>
                 <th scope="col">Tên khóa học</th>
                 <th scope="col">Trình độ</th>
-                <th scope="col">Thời gian tạo</th>
+                <th scope="col">Thời gian xóa</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             {{#each courses}}
             <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{this._id}}" name="courseIds[]"> 
+                  </div>
+                </td>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.level}}</td>
-                <td>{{this.createdAt}}</td>
+                <td>{{this.deletedAt}}</td>
                 <td>
                     <a href="" class="btn btn-info btn-restore" data-id="{{this._id}}">Khôi phục</a>
                     <a href="" class="btn btn-dark btn-delete-course" data-toggle="modal" data-id="{{this._id}}" data-target="#delete-course-modal">Xóa</a>
@@ -34,7 +53,7 @@
             {{/each}}
         </tbody>
     </table>
-</div>
+</form>
 
 {{!-- Confirm delete course --}}
 <div class="modal fade" id="delete-course-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -67,6 +86,9 @@
         var restoreForm = document.forms['restore-course-form'];
         var btnDeleteCourse = document.querySelector('#btn-delete-course');
         var btnRestore = $('.btn-restore');
+        var checkboxAll = $('#checkbox-all');
+        var courseItemCheckbox = $('input[name="courseIds[]"]');
+        var checkAllSubmitBtn= $('.btn-check-all-submit');
 
         // When dialog confirm clicked
         $('#delete-course-modal').on('show.bs.modal', function (event) {
@@ -86,6 +108,34 @@
           var courseIdRestore= $(this).data('id');
           restoreForm.action = '/courses/' + courseIdRestore + '/restore?_method=PATCH';
           restoreForm.submit();
+        })
+
+        checkboxAll.change(function () {
+          var isCheckedAll = $(this).prop('checked');
+          courseItemCheckbox.prop('checked', isCheckedAll);
+          renderCheckAllSubmitBtn();
+        })
+
+        courseItemCheckbox.change(function () {
+            var isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length;
+            checkboxAll.prop('checked', isCheckedAll);
+            renderCheckAllSubmitBtn();
+        })
+
+        function renderCheckAllSubmitBtn() {
+          var checkedCount = $('input[name="courseIds[]"]:checked').length;
+          if(checkedCount > 0) {
+            checkAllSubmitBtn.removeClass('disabled')
+          }else {
+            checkAllSubmitBtn.addClass('disabled')
+          }
+        }
+
+        checkAllSubmitBtn.on('submit', function (e) {
+          var isSubmittable = !$(this).hasClass('disabled');
+          if(!isSubmittable) {
+            e.preventDefault();
+          }
         })
     })
 </script>

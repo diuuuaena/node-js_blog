@@ -62,6 +62,27 @@ class CourseController {
             .then(() => res.redirect('back'))
             .catch(next);
     }
+
+    //[POST] /courses/handle-form-actions
+    async handleFormActions(req, res, next) {
+        switch(req.body.action) {
+            case 'delete':
+                await Course.delete({ _id: { $in: req.body.courseIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            case 'restore':
+                await Course.restore({ _id: { $in: req.body.courseIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            case 'delete-forever':
+                await Course.deleteMany({ _id: { $in: req.body.courseIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+        }
+    }
 }
 
 module.exports = new CourseController();
