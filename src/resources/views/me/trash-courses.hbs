@@ -9,12 +9,12 @@
             Chọn tất cả
           </label>
         </div>
-        <select name="action" class="form-control form-control-sm col-md-2 mr-4" required>
+        <select name="action" class="form-control form-control-sm col-md-2 mr-4" required="required">
             <option value="">-- Chọn hành động --</option>
             <option value="restore">Khôi phục</option>
             <option value="delete-forever">Xóa</option>
         </select>
-        <button class="btn btn-primary btn-sm btn-check-all-submit disabled">Thực hiện</button>
+        <button class="btn btn-primary btn-sm btn-check-all-submit" disabled="disabled">Thực hiện</button>
       </div>
     </div>
     <table class="table mt-4">
@@ -125,17 +125,10 @@
         function renderCheckAllSubmitBtn() {
           var checkedCount = $('input[name="courseIds[]"]:checked').length;
           if(checkedCount > 0) {
-            checkAllSubmitBtn.removeClass('disabled')
+            checkAllSubmitBtn.removeAttr('disabled')
           }else {
-            checkAllSubmitBtn.addClass('disabled')
+            checkAllSubmitBtn.attr('disabled', true)
           }
         }
-
-        checkAllSubmitBtn.on('submit', function (e) {
-          var isSubmittable = !$(this).hasClass('disabled');
-          if(!isSubmittable) {
-            e.preventDefault();
-          }
-        })
     })
 </script>
